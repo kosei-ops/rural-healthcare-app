@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RuralCare - Remote Healthcare for Rural Areas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app-container">
+        
+        <!-- Top Navbar (Hidden until registration) -->
+        <nav class="navbar" id="main-navbar" style="display: none;">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="fa-solid fa-house-medical"></i>
+                </div>
+                <div class="nav-logo-text">
+                    <div class="nav-logo-name">RuralCare</div>
+                </div>
+            </div>
+            <div class="nav-menu">
+                <button onclick="toggleTheme()" title="Toggle Theme" id="theme-btn" class="ripple">
+                    <i class="fa-solid fa-moon" id="theme-moon" style="display:none"></i>
+                    <i class="fa-solid fa-sun" id="theme-sun"></i>
+                </button>
+            </div>
+        </nav>
+
+        <main id="main-content">
+            <!-- 1. PATIENT REGISTRATION SCREEN -->
+            <section id="screen-register" class="screen active">
+                <div class="hero-section">
+                    <div class="icon-pulse">
+                        <i class="fa-regular fa-address-card"></i>
+                    </div>
+                    <h1>Get Started</h1>
+                    <p class="subtitle">Enter patient details to set up your profile</p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="section-header"><i class="fa-solid fa-user"></i> Personal Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="patient-name">Full Name</label>
+                        <input type="text" id="patient-name" class="form-control" placeholder="Enter patient name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="patient-age">Age</label>
+                        <input type="number" id="patient-age" class="form-control" placeholder="Enter age" min="1" max="120">
+                    </div>
+                    
+                    <div class="form-group mb-0">
+                        <label for="patient-gender">Gender (optional)</label>
+                        <select id="patient-gender" class="form-control">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="simulation-disclaimer mt-4">
+                    <i class="fa-solid fa-circle-info"></i> 
+                    <span>This information is for academic prototype demonstration only.</span>
+                </div>
+
+                <button class="btn btn-primary btn-large mt-6 ripple" onclick="goToFamilyDetails()">
+                    Continue <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <!-- 2. FAMILY DETAILS SCREEN -->
+            <section id="screen-family" class="screen">
+                <div class="hero-section">
+                    <div class="icon-pulse">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h1>Emergency Contacts</h1>
+                    <p class="subtitle">Set up primary emergency contacts</p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="section-header"><i class="fa-solid fa-address-book"></i> Primary Contact</h3>
+                    
+                    <div class="form-group">
+                        <label for="family-name">Family Member Name</label>
+                        <input type="text" id="family-name" class="form-control" placeholder="Enter family member name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="family-relation">Relationship</label>
+                        <input type="text" id="family-relation" class="form-control" placeholder="e.g., Father, Mother, Son">
+                    </div>
+                    
+                    <div class="form-group mb-0">
+                        <label for="family-contact">Contact Number</label>
+                        <input type="tel" id="family-contact" class="form-control" placeholder="Enter contact number">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large mt-6 ripple" onclick="finishRegistration()">
+                    Complete Registration <i class="fa-solid fa-check"></i>
+                </button>
+            </section>
+
+            <!-- 3. CENTRAL DASHBOARD SCREEN -->
+            <section id="screen-dashboard" class="screen">
+                <div class="patient-greeting mb-4" id="dashboard-greeting">
+                    <i class="fa-solid fa-user-circle"></i> Loading...
+                </div>
+                
+                <h2 style="margin-bottom: 0.5rem; font-size: 1.5rem;">Services</h2>
+                <p class="subtitle mb-4">Select a module to proceed</p>
+
+                <div class="dashboard-grid dashboard-menu">
+                    <div class="nav-card-btn ripple" onclick="navigateTo('monitoring')">
+                        <div class="nav-card-icon" style="color: var(--accent); background: var(--accent-glow);"><i class="fa-solid fa-heart-pulse"></i></div>
+                        <div class="nav-card-details">
+                           <div class="nav-card-title">Vitals Monitor</div>
+                           <div class="nav-card-subtitle">Track your health parameters</div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-card-btn ripple" onclick="navigateTo('consultation')">
+                        <div class="nav-card-icon" style="color: var(--accent2); background: rgba(10, 185, 191, 0.15);"><i class="fa-solid fa-user-doctor"></i></div>
+                        <div class="nav-card-details">
+                           <div class="nav-card-title">Consult Doctor</div>
+                           <div class="nav-card-subtitle">Connect with remote physicians</div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-card-btn ripple" onclick="navigateTo('emergency')">
+                        <div class="nav-card-icon" style="color: var(--danger); background: rgba(239, 68, 68, 0.15);"><i class="fa-solid fa-kit-medical"></i></div>
+                        <div class="nav-card-details">
+                           <div class="nav-card-title">Emergency Alert</div>
+                           <div class="nav-card-subtitle">Trigger rapid response</div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-card-btn ripple" onclick="navigateTo('records')">
+                        <div class="nav-card-icon" style="color: var(--text2); background: var(--surface2);"><i class="fa-solid fa-folder-open"></i></div>
+                        <div class="nav-card-details">
+                           <div class="nav-card-title">Health Records</div>
+                           <div class="nav-card-subtitle">View past assessments</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. HEALTH MONITORING SCREEN -->
+            <section id="screen-monitoring" class="screen">
+                <h2>Health Monitoring</h2>
+                <p class="subtitle">Simulate real-time sensor data</p>
+                
+                <div class="dashboard-grid mt-4">
+                    <div class="vital-card card">
+                        <div class="vital-header">
+                            <span class="vital-label"><i class="fa-solid fa-temperature-half txt-primary"></i> Body Temp</span>
+                            <span id="temp-display" class="value-display">37.0°C</span>
+                        </div>
+                        <div class="meter-container">
+                            <div class="meter-fill" id="temp-meter"></div>
+                        </div>
+                        <input type="range" id="temp-slider" min="35.0" max="42.0" step="0.1" value="37.0" oninput="updateValues()">
+                    </div>
+
+                    <div class="vital-card card">
+                        <div class="vital-header">
+                            <span class="vital-label"><i class="fa-solid fa-heart txt-primary"></i> Heart Rate</span>
+                            <span id="hr-display" class="value-display">75 bpm</span>
+                        </div>
+                        <div class="meter-container">
+                            <div class="meter-fill" id="hr-meter"></div>
+                        </div>
+                        <input type="range" id="hr-slider" min="50" max="150" step="1" value="75" oninput="updateValues()">
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button class="btn btn-primary btn-large ripple" onclick="checkHealthStatus()">
+                        <i class="fa-solid fa-stethoscope"></i> Check Health Status
+                    </button>
+                </div>
+            </section>
+
+            <!-- 5. HEALTH STATUS SCREEN -->
+            <section id="screen-status" class="screen">
+                <h2>Assessment Result</h2>
+                
+                <div id="status-card" class="card status-card">
+                    <div id="status-icon" class="status-icon"></div>
+                    <h3 id="status-title">Evaluating...</h3>
+                    <p id="status-message" class="mt-2"></p>
+                    
+                    <div id="status-values" class="status-values">
+                        <!-- Values populated by JS -->
+                    </div>
+                </div>
+
+                <div class="dashboard-grid mt-6">
+                     <button id="btn-consult" class="btn btn-primary btn-large ripple" onclick="navigateTo('consultation')">
+                        <i class="fa-solid fa-user-doctor"></i> Consult Doctor
+                    </button>
+                    <button class="btn btn-secondary btn-large ripple" onclick="goBack()">
+                        <i class="fa-solid fa-arrow-left"></i> Measure Again
+                    </button>
+                </div>
+            </section>
+
+            <!-- 6. DOCTOR CONSULTATION SCREEN -->
+            <section id="screen-consultation" class="screen">
+                <h2>Consultation</h2>
+                <p class="subtitle">Secure communication portal</p>
+                
+                <div class="consultation-display card">
+                    <div class="doctor-avatar">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <div class="consultation-status" id="consultation-status-msg">
+                        Ready to connect...
+                    </div>
+                </div>
+
+                <div id="consultation-actions" class="mt-6">
+                    <button class="btn btn-primary btn-large ripple" onclick="startConsultation()" style="background: linear-gradient(135deg, var(--accent3), #0d9488);">
+                        <i class="fa-solid fa-video"></i> Initialize Call Server
+                    </button>
+                </div>
+            </section>
+            
+            <!-- 7. EMERGENCY SCREEN -->
+            <section id="screen-emergency" class="screen">
+                <h2 style="color: var(--danger)">Emergency Dispatch</h2>
+                <p class="subtitle">Active rapid response protocol</p>
+                
+                <div class="card" style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                      <div class="status-icon" style="font-size: 3rem; margin-bottom:0.8rem; color:var(--danger); background: rgba(239,68,68,0.1); width: 80px; height: 80px; border-radius: 20px; display: inline-flex; align-items:center; justify-content:center;"><i class="fa-solid fa-house-chimney-medical"></i></div>
+                      <h3 style="color:var(--danger); font-family: 'Outfit';">Simulation Active</h3>
+                    </div>
+                    <p class="mt-2" style="text-align: center; font-size: 14px;">In a live deployment, this will dispatch GPS coordinates to emergency responders immediately.</p>
+                </div>
+
+                <div class="card mt-4">
+                    <h3 class="section-header"><i class="fa-solid fa-address-book"></i> Notified Contact</h3>
+                    <div style="background: var(--surface2); padding: 15px; border-radius: 12px;">
+                      <p style="font-size: 14px; margin-bottom: 8px;"><strong>Name:</strong> <span id="disp-fam-name">Not Set</span> (<span id="disp-fam-rel"></span>)</p>
+                      <p style="font-size: 14px; margin-bottom: 0;"><strong>Phone:</strong> <span id="disp-fam-contact">Not Set</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. HEALTH RECORDS -->
+            <section id="screen-records" class="screen">
+                <h2>Patient History</h2>
+                <p class="subtitle mb-4">Past vitals assessments</p>
+                
+                <div class="records-list" id="records-list">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- 9. ABOUT / PROFILE SCREEN -->
+            <section id="screen-about" class="screen">
+                <div class="patient-greeting mb-4" style="flex-direction: column; text-align: center; padding: 2rem 1rem;">
+                    <i class="fa-solid fa-user-large" style="width: 64px; height: 64px; font-size: 28px; margin-bottom: 10px;"></i>
+                    <div style="font-family: 'Outfit'; font-size: 20px; font-weight: 700;">Rural Healthcare Settings</div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="section-header"><i class="fa-solid fa-microscope"></i> Project Info</h3>
+                    <p style="font-size: 13px;">Academic prototype focusing on healthcare accessibility and initial triage in remote areas through connected interfaces.</p>
+                </div>
+                
+                <button class="btn btn-secondary btn-large mt-4 ripple" onclick="toggleTheme()">
+                    <i class="fa-solid fa-palette"></i> Toggle Dark/Light Theme
+                </button>
+            </section>
+
+        </main>
+        
+        <!-- Bottom Tab Navigation -->
+        <nav class="bottom-nav" id="bottom-navbar" style="display: none;">
+            <button class="tab-item active ripple-nav" onclick="navigateTo('dashboard')" id="tab-dashboard">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </button>
+            <button class="tab-item ripple-nav" onclick="navigateTo('monitoring')" id="tab-monitoring">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span>Monitor</span>
+            </button>
+            <button class="tab-item ripple-nav" onclick="navigateTo('consultation')" id="tab-consultation">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span>Consult</span>
+            </button>
+            <button class="tab-item ripple-nav" onclick="navigateTo('about')" id="tab-about">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
